@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: ko-KR
+
+reviews:
+  path_filters:
+    - "!pnpm-lock.yaml"
+    - "!src/f_shared/ui/shadcn/**"
+  path_instructions:
+    - path: "**/*"
+      instructions: |
+        docs/collaboration/code-review.md의 "리뷰 체크리스트"를 기준으로 리뷰한다.
+        - 지적할 때 근거가 되는 docs 문서 경로를 함께 적는다.
+        - 각 지적에 [버그] / [규칙 위반] / [제안] 중 하나를 붙인다. [버그]와 [규칙 위반]은 머지 전 반영 필수, [제안]은 선택이다.
+        - docs에 없는 규칙을 근거로 [규칙 위반]을 지적하지 않는다.
+  auto_review:
+    enabled: true
+    base_branches:
+      - ".*"
+
+knowledge_base:
+  code_guidelines:
+    enabled: true
+    filePatterns:
+      - "AGENTS.md"
+      - "docs/**/*.md"

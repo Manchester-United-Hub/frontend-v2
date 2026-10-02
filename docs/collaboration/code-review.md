@@ -36,4 +36,8 @@ CodeRabbit은 아래 항목을 기준으로 리뷰하고, 지적할 때 근거 �
 ## CodeRabbit 설정
 
 - 저장소가 Public이므로 Pro 기능을 무료로 쓴다.
-- 이 체크리스트와 `docs/`를 리뷰 기준으로 지정하는 설정은 `.coderabbit.yaml`에 둔다. (미작성)
+- 설정 파일: [`.coderabbit.yaml`](../../.coderabbit.yaml)
+  - `AGENTS.md`, `docs/**/*.md`를 코딩 가이드라인으로 읽는다.
+  - 지적에 `[버그]` / `[규칙 위반]` / `[제안]`을 붙이게 해 위 "지적 처리" 기준과 맞춘다.
+  - 모든 base 브랜치 대상 PR을 리뷰한다. (stacked PR은 앞 단계 브랜치를 base로 하기 때문)
+  - `pnpm-lock.yaml`, `f_shared/ui/shadcn/`(수정 금지 영역)은 리뷰에서 제외한다.
