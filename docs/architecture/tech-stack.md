@@ -1,13 +1,13 @@
 # 기술 스택
 
-`설치됨`: `package.json`에 반영됨 · `도입 예정`: 결정됐지만 아직 설치 전
+`설치됨`: 저장소 설정·`package.json`에 반영됨 · `도입 예정`: 결정됐지만 아직 적용 전
 
 ## 런타임 / 프레임워크
 
 | 영역 | 기술 | 상태 |
 | --- | --- | --- |
-| 런타임 | Node.js 24 | 도입 예정 (버전 고정) |
-| 패키지 매니저 | pnpm | 도입 예정 (현재 npm → 전환) |
+| 런타임 | Node.js 24 | 설치됨 (`.nvmrc`, `engines`) |
+| 패키지 매니저 | pnpm 10 | 설치됨 (`packageManager`) |
 | 프레임워크 | Next.js 16 (App Router) | 설치됨 |
 | UI 런타임 | React 19 + React Compiler | 설치됨 |
 | 언어 | TypeScript (strict) | 설치됨 |
@@ -47,7 +47,7 @@
 | --- | --- | --- |
 | CI/CD | GitHub Actions | 도입 예정 |
 | stacked PR | Graphite CLI (`gt`) | 도입 예정 |
-| AI 코드 리뷰 | CodeRabbit | 도입 예정 |
+| AI 코드 리뷰 | CodeRabbit | 설치됨 (`.coderabbit.yaml`) |
 | 알림 | Discord | 도입 예정 |
 | 성능 측정 | Vercel Speed Insights | 도입 예정 |
 | 행동 분석 | Google Analytics 4 | 도입 예정 |
