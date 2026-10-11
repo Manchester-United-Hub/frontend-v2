@@ -36,7 +36,8 @@ Vercel의 Git 자동 배포는 끄고(`vercel.json`), GitHub Actions에서 Verce
 - `develop`은 배포하지 않는다. 머지 전 확인은 PR Preview로 한다.
 - 운영 도메인 전환(`main` → `manuhub.kro.kr`, `develop` → `manuhub-develop.vercel.app`)은 v2 구현 완료 후 진행한다. → #11
 - `main`은 ruleset으로 직접 push를 막아 두었으므로, `push` 트리거는 PR 머지 때만 실행된다. 머지된 PR은 이미 CI를 통과했으므로 CI를 다시 돌리지 않는다.
-- 같은 PR의 이전 Preview 배포는 취소한다. Production 배포는 취소하지 않고 순서대로 실행하며, 배포 직전 `main`의 최신 커밋과 다르면 배포를 건너뛴다. (오래된 실행의 재실행 방지)
+- 같은 PR의 이전 Preview 배포는 취소한다.
+- Production 배포는 같은 concurrency group에서 하나씩 실행한다. 실행 중인 배포는 취소하지 않지만, 대기 중인 배포는 새 실행이 들어오면 취소되고 새 실행으로 대체된다. 배포 직전 `main`의 최신 커밋과 다르면 배포를 건너뛴다. (오래된 실행의 재실행 방지)
 - 포크 PR은 시크릿이 없어 배포하지 않는다.
 - 배포 환경변수는 Vercel 대시보드에서 관리한다. → [env](../architecture/env.md)
 
