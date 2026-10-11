@@ -1,0 +1,98 @@
+name: Discord Notify
+
+on:
+  workflow_call:
+    inputs:
+      status:
+        description: success 또는 failure
+        type: string
+        required: true
+      title:
+        type: string
+        required: true
+      url:
+        description: 제목 링크 (기본값은 실행 로그)
+        type: string
+        default: ""
+      sha:
+        type: string
+        required: true
+      commit_message:
+        type: string
+        default: ""
+      fields:
+        description: '한 줄에 하나씩 "이름=값"'
+        type: string
+        default: ""
+      results:
+        description: 호출한 잡의 toJSON(needs)
+        type: string
+        default: "{}"
+    secrets:
+      DISCORD_WEBHOOK_URL:
+        required: false
+
+jobs:
+  discord:
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Send Discord message
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          STATUS: ${{ inputs.status }}
+          TITLE: ${{ inputs.title }}
+          URL: ${{ inputs.url }}
+          SHA: ${{ inputs.sha }}
+          COMMIT_MESSAGE: ${{ inputs.commit_message }}
+          FIELDS: ${{ inputs.fields }}
+          RESULTS: ${{ inputs.results }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK_URL" ]; then
+            echo "::notice::DISCORD_WEBHOOK_URL is not set, skip Discord notification"
+            exit 0
+          fi
+
+          payload=$(jq -n \
+            --arg status "$STATUS" \
+            --arg title "$TITLE" \
+            --arg url "${URL:-$RUN_URL}" \
+            --arg sha "$SHA" \
+            --arg commit_message "$COMMIT_MESSAGE" \
+            --arg fields "$FIELDS" \
+            --argjson results "$RESULTS" \
+            --arg repo_url "$REPO_URL" \
+            --arg run_url "$RUN_URL" \
+            --arg run_number "$RUN_NUMBER" \
+            --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '
+            ($fields | split("\n") | map(select(length > 0) | capture("^(?<name>[^=]+)=(?<value>.+)$") | . + {inline: false})) as $custom
+            | ($results | to_entries | map(select(.value.result == "failure") | "`\(.key)`") | join(", ")) as $failed_jobs
+            | ($commit_message | split("\n")[0] // "") as $subject
+            | {
+                embeds: [{
+                  title: $title,
+                  url: $url,
+                  color: (if $status == "success" then 3055683 else 13574702 end),
+                  fields: (
+                    $custom
+                    + (if $failed_jobs == "" then [] else [{name: "실패한 잡", value: $failed_jobs, inline: false}] end)
+                    + [
+                        {name: "커밋", value: "[`\($sha[0:7])`](\($repo_url)/commit/\($sha)) \($subject)", inline: true},
+                        {name: "실행 로그", value: "[#\($run_number) 보기](\($run_url))", inline: true}
+                      ]
+                  ),
+                  timestamp: $timestamp
+                }]
+              }
+            ')
+
+          if ! curl --silent --show-error --fail-with-body --max-time 10 \
+            -H "Content-Type: application/json" \
+            --data "$payload" \
+            "$DISCORD_WEBHOOK_URL"; then
+            echo "::warning::Failed to send Discord notification"
+          fi

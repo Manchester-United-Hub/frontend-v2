@@ -26,6 +26,9 @@ jobs:
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+      deployed: ${{ steps.latest.outputs.current }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
@@ -123,3 +126,20 @@ jobs:
             } else {
               await github.rest.issues.createComment({ owner, repo, issue_number, body });
             }
+
+  notify:
+    needs: production
+    if: >-
+      !cancelled() && github.event_name == 'push' &&
+      (needs.production.result == 'failure' ||
+      (needs.production.result == 'success' && needs.production.outputs.deployed == 'true'))
+    uses: ./.github/workflows/notify.yml
+    with:
+      status: ${{ needs.production.result }}
+      title: ${{ needs.production.result == 'success' && '✅ Production 배포 성공' || '❌ Production 배포 실패' }}
+      url: ${{ needs.production.outputs.url }}
+      sha: ${{ github.sha }}
+      commit_message: ${{ github.event.head_commit.message }}
+      fields: |
+        ${{ needs.production.result == 'success' && format('배포 URL={0}', needs.production.outputs.url) || '' }}
+    secrets: inherit
