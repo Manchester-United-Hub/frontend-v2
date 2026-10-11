@@ -52,5 +52,5 @@
 | 성능 측정 | Vercel Speed Insights | 도입 예정 |
 | 행동 분석 | Google Analytics 4 | 도입 예정 |
 | 에러 추적 | Sentry | 도입 예정 |
-| 프론트 호스팅 | Vercel | 도입 예정 |
+| 프론트 호스팅 | Vercel | 설치됨 (`vercel.json`, `.github/workflows/deploy.yml`) |
 | 백엔드 | Spring Boot on AWS (별도 저장소) | 운영 중 |
