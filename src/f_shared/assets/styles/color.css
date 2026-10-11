@@ -1,0 +1,14 @@
+@theme {
+  --color-background: #f8f8fa;
+  --color-muted: #f4f4f5;
+  --color-border: #e4e4e7;
+  --color-muted-foreground: #71717a;
+  --color-primary: #18181b;
+  --color-foreground: #09090b;
+
+  --color-accent: #da291c;
+  --color-accent-ink: #b21f15;
+  --color-win: #1f8a5b;
+  --color-draw: #b88207;
+  --color-loss: #71717a;
+}
