@@ -20,6 +20,8 @@
 ^(feat|fix|style|refactor|test|chore|init): .+( #[0-9]+)?$
 ```
 
+- 예외: `Merge `로 시작하는 git 기본 머지 메시지는 검사하지 않는다. (로컬 `git merge`)
+
 ## 타입
 
 | 타입 | 용도 |

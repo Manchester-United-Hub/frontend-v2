@@ -14,6 +14,11 @@ echo ""
 COMMIT_MSG=$(cat "$1")
 PATTERN='^(feat|fix|style|refactor|test|chore|init): .+( #[0-9]+)?$'
 
+if echo "$COMMIT_MSG" | head -1 | grep -qE '^Merge '; then
+  echo "${GREEN}${BOLD}✔ Merge commit — convention check skipped${RESET}"
+  exit 0
+fi
+
 echo "${YELLOW}${BOLD}[1/1] Checking commit message format...${RESET}"
 echo "${CYAN}──────────────────────────────────────────────────${RESET}"
 echo "  ${BOLD}Message:${RESET} $(echo "$COMMIT_MSG" | head -1)"
