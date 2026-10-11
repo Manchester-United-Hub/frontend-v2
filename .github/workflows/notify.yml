@@ -90,7 +90,9 @@ jobs:
               }
             ')
 
-          curl --silent --show-error --fail-with-body --max-time 10 \
+          if ! curl --silent --show-error --fail-with-body --max-time 10 \
             -H "Content-Type: application/json" \
             --data "$payload" \
-            "$DISCORD_WEBHOOK_URL"
+            "$DISCORD_WEBHOOK_URL"; then
+            echo "::warning::Failed to send Discord notification"
+          fi
