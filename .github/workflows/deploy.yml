@@ -130,7 +130,7 @@ jobs:
   notify:
     needs: production
     if: >-
-      always() && github.event_name == 'push' &&
+      !cancelled() && github.event_name == 'push' &&
       (needs.production.result == 'failure' ||
       (needs.production.result == 'success' && needs.production.outputs.deployed == 'true'))
     uses: ./.github/workflows/notify.yml

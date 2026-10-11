@@ -100,7 +100,7 @@ jobs:
 
   notify:
     needs: [lint, type-check, build, test]
-    if: failure()
+    if: failure() && !cancelled()
     uses: ./.github/workflows/notify.yml
     with:
       status: failure

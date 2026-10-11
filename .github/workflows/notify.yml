@@ -90,7 +90,7 @@ jobs:
               }
             ')
 
-          curl --silent --show-error --fail-with-body \
+          curl --silent --show-error --fail-with-body --max-time 10 \
             -H "Content-Type: application/json" \
             --data "$payload" \
             "$DISCORD_WEBHOOK_URL"
