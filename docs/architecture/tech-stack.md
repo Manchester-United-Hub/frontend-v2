@@ -32,7 +32,7 @@
 | 영역 | 기술 | 상태 | 비고 |
 | --- | --- | --- | --- |
 | Lint | ESLint 9 (`eslint-config-next`) | 설치됨 | |
-| Format | Prettier + `@ianvs/prettier-plugin-sort-imports` + `prettier-plugin-tailwindcss` | 도입 예정 | import·Tailwind 클래스 자동 정렬 |
+| Format | Prettier + `@ianvs/prettier-plugin-sort-imports` + `prettier-plugin-tailwindcss` | 설치됨 | import·Tailwind 클래스 자동 정렬 |
 | Git hook | Husky + lint-staged | 설치됨 | → [ci](../collaboration/ci.md#로컬-husky) |
 | 단위/컴포넌트 테스트 | Vitest | 설치됨 | |
 | E2E 테스트 | Playwright | 도입 예정 | |
