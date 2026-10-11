@@ -1,0 +1,9 @@
+header=$(head -n 1 "$1")
+pattern='^(feat|fix|style|refactor|test|chore|init): .+( #[0-9]+)?$'
+
+if ! printf '%s\n' "$header" | grep -Eq "$pattern"; then
+  echo "커밋 헤더가 규칙에 맞지 않습니다: $header"
+  echo "형식: 타입: 간결한 설명 #이슈번호 (타입: feat|fix|style|refactor|test|chore|init)"
+  echo "→ docs/collaboration/commit.md"
+  exit 1
+fi
