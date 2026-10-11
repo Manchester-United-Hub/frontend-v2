@@ -27,15 +27,16 @@
 
 Vercel의 Git 자동 배포는 끄고(`vercel.json`), GitHub Actions에서 Vercel CLI로 배포한다. (`.github/workflows/deploy.yml`)
 
-| 트리거 | 환경 | 결과 |
-| --- | --- | --- |
-| `main` 머지 | Production | 운영 도메인 `manuhub-develop.vercel.app` |
-| `develop` 머지 | Preview | 고정 도메인 `manuhub-preview.vercel.app` |
-| `main`·`develop` 대상 PR | Preview | PR별 URL을 PR 댓글로 남긴다 (같은 댓글 갱신) |
+| 잡 | 트리거 | 환경 | 결과 |
+| --- | --- | --- | --- |
+| production | `main` 머지 | Production | `manuhub-develop.vercel.app` |
+| preview | `main`·`develop` 대상 PR | Preview | PR별 URL을 PR 댓글로 남긴다 (같은 댓글 갱신) |
 
 - 순서: `vercel pull` → `vercel build` → `vercel deploy --prebuilt`
-- `main`·`develop`은 ruleset으로 직접 push를 막아 두었으므로, 워크플로의 `push` 트리거는 PR 머지 때만 실행된다. 머지된 PR은 이미 CI를 통과했으므로 CI를 다시 돌리지 않는다.
-- 같은 PR의 이전 배포는 취소한다. `main`·`develop` 배포는 취소하지 않고 순서대로 실행한다.
+- `develop`은 배포하지 않는다. 머지 전 확인은 PR Preview로 한다.
+- 운영 도메인 전환(`main` → `manuhub.kro.kr`, `develop` → `manuhub-develop.vercel.app`)은 v2 구현 완료 후 진행한다. → #11
+- `main`은 ruleset으로 직접 push를 막아 두었으므로, `push` 트리거는 PR 머지 때만 실행된다. 머지된 PR은 이미 CI를 통과했으므로 CI를 다시 돌리지 않는다.
+- 같은 PR의 이전 Preview 배포는 취소한다. Production 배포는 취소하지 않고 순서대로 실행한다.
 - 포크 PR은 시크릿이 없어 배포하지 않는다.
 - 배포 환경변수는 Vercel 대시보드에서 관리한다. → [env](../architecture/env.md)
 
