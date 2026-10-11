@@ -4,7 +4,7 @@
 
 | 훅 | 실행 |
 | --- | --- |
-| `pre-commit` | lint-staged — 스테이지된 파일에 `eslint --fix`, `prettier --write` |
+| `pre-commit` | lint-staged — 스테이지된 파일에 `eslint --fix`, `prettier --write`<br>`vitest run --changed origin/develop` — `develop` 대비 변경 파일과 관련된 테스트만 실행 (`origin/develop`이 없으면 전체 테스트) |
 | `commit-msg` | 커밋 헤더 정규식 검사 → [commit](commit.md#헤더) |
 
 ## GitHub Actions

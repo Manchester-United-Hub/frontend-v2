@@ -20,6 +20,8 @@
 ^(feat|fix|style|refactor|test|chore|init): .+( #[0-9]+)?$
 ```
 
+- 예외: 병합이 진행 중일 때(`MERGE_HEAD` 존재)의 커밋은 검사하지 않는다. (로컬 `git merge`)
+
 ## 타입
 
 | 타입 | 용도 |
