@@ -48,11 +48,17 @@ Vercel의 Git 자동 배포는 끄고(`vercel.json`), GitHub Actions에서 Verce
 | `VERCEL_TOKEN` | Vercel Account Settings → Tokens |
 | `VERCEL_ORG_ID` | `.vercel/project.json`의 `orgId` (`vercel link` 후) |
 | `VERCEL_PROJECT_ID` | `.vercel/project.json`의 `projectId` |
+| `DISCORD_WEBHOOK_URL` | Discord 채널 설정 → 연동 → 웹후크 URL |
 
 ## Discord 알림
 
 | 이벤트 | 내용 |
 | --- | --- |
-| CI 실패 | 실패한 잡 이름 + 링크 |
-| Production 배포 결과 | `main` 배포 성공/실패 |
+| CI 실패 | PR, 브랜치, 실패한 잡 이름, 커밋, 실행 로그 링크 |
+| Production 배포 성공 | 배포 URL, 커밋, 실행 로그 링크 |
+| Production 배포 실패 | 커밋, 실행 로그 링크 |
 | Sentry 에러 | 운영 에러 발생 (Sentry 알림 연동) → [analytics](../architecture/analytics.md) |
+
+- 메시지 전송은 재사용 워크플로 `.github/workflows/notify.yml`이 맡고, `ci.yml`·`deploy.yml`의 `notify` 잡이 이를 호출한다.
+- Webhook은 `DISCORD_WEBHOOK_URL` 하나로 모든 알림을 같은 채널에 보낸다. 값이 없으면(포크 PR 포함) 알림 없이 넘어간다.
+- 최신 `main`이 아니어서 배포를 건너뛴 경우, 취소된 실행, Preview 배포는 알리지 않는다.
