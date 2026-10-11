@@ -3,7 +3,9 @@
 ## 기본
 
 - 스타일은 Tailwind CSS v4 유틸리티 클래스로 작성한다.
-- Tailwind 설정은 `tailwind.config.*`가 아닌 `src/app/globals.css`의 `@theme`에서 한다.
+- Tailwind 설정은 `tailwind.config.*`가 아닌 CSS `@theme`에서 한다.
+- 토큰은 `src/f_shared/assets/styles/`에 종류별 파일(`color.css`, `typography.css`)로 나눠 정의하고, `src/app/globals.css`에서 import한다.
+- `globals.css`에는 import와 전역 기본 스타일(`@layer base`)만 둔다.
 
 ## 디자인 토큰
 
