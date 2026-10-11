@@ -45,7 +45,7 @@
 
 | 영역 | 기술 | 상태 |
 | --- | --- | --- |
-| CI/CD | GitHub Actions | 도입 예정 |
+| CI/CD | GitHub Actions | 설치됨 (`.github/workflows/ci.yml`) |
 | stacked PR | Graphite CLI (`gt`) | 도입 예정 |
 | AI 코드 리뷰 | CodeRabbit | 설치됨 (`.coderabbit.yaml`) |
 | 알림 | Discord | 도입 예정 |
