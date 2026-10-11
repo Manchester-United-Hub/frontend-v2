@@ -14,7 +14,7 @@ echo ""
 COMMIT_MSG=$(cat "$1")
 PATTERN='^(feat|fix|style|refactor|test|chore|init): .+( #[0-9]+)?$'
 
-if echo "$COMMIT_MSG" | head -1 | grep -qE '^Merge '; then
+if [ -f "$(git rev-parse --git-path MERGE_HEAD)" ]; then
   echo "${GREEN}${BOLD}✔ Merge commit — convention check skipped${RESET}"
   exit 0
 fi
