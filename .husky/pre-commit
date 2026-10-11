@@ -1,2 +1,7 @@
 pnpm exec lint-staged
-pnpm exec vitest run --changed origin/develop --passWithNoTests
+
+if git rev-parse --verify --quiet origin/develop >/dev/null; then
+  pnpm exec vitest run --changed origin/develop --passWithNoTests
+else
+  pnpm exec vitest run --passWithNoTests
+fi
